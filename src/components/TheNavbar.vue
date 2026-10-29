@@ -19,7 +19,10 @@
             <RouterLink class="nav-link" to="/dashboard/products">產品頁</RouterLink>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <RouterLink class="nav-link" to="/dashboard/orders">訂單頁</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/dashboard/Coupons">優惠頁</RouterLink>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>

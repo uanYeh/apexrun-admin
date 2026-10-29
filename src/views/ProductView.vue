@@ -104,26 +104,14 @@ export default {
           console.log(res.data.success);
           this.isLoading = false;
           productComponent.hideModal();
-          if (res.data.success) {
-            this.getProducts();
-            this.emitter.emit("push-message", {
-              style: "success",
-              title: "更新成功",
-            });
-          } else {
-            this.emitter.emit("push-message", {
-              style: "danger",
-              title: "更新失敗",
-              content: res.data.message.join("、"),
-            });
-          }
+          this.$httppageMessageState(res, this.isNew ? "新增" : "更新");
         })
         .catch((err) => {
           this.isLoading = false;
           productComponent.hideModal();
-          this.emitter.emit("push-message", {
+          this.$httppageMessageState("push-message", {
             style: "danger",
-            title: "新增失敗",
+            title: "API 錯誤",
             content: err.response?.data?.message?.join("、") || "請確認欄位填寫完整",
           });
         });
@@ -136,10 +124,13 @@ export default {
     delProduct() {
       const url = `${import.meta.env.VITE_APP_API}api/${import.meta.env.VITE_APP_PATH}/admin/product/${this.tempProduct.id}`;
       this.$http.delete(url).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         const delComponent = this.$refs.delModal;
         delComponent.hideModal();
-        this.getProducts();
+        this.$httppageMessageState(res, "刪除");
+        if (res.data.success) {
+          this.getProducts();
+        }
       });
     },
   },

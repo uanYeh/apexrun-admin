@@ -7,7 +7,8 @@ import App from "./App.vue";
 import router from "./router";
 import Loading from "vue3-loading-overlay";
 import "vue3-loading-overlay/dist/vue3-loading-overlay.css";
-import { currency } from "@/methods/filters.js";
+import { currency, date } from "@/methods/filters.js";
+import $httppageMessageState from "@/methods/pageMessageState.js";
 
 import "../stylesheets/all.scss";
 
@@ -28,7 +29,9 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 const app = createApp(App);
 app.config.globalProperties.$filters = {
   currency,
+  date,
 };
+app.config.globalProperties.$httppageMessageState = $httppageMessageState;
 app.use(VueAxios, axios);
 app.use(createPinia());
 app.use(router);

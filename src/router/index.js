@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import LoginView from "@/views/LoginView.vue";
+import LoginView from "../views/LoginView.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -18,6 +18,16 @@ const router = createRouter({
           path: "products",
           name: "dashboard-products",
           component: () => import("@/views/ProductView.vue"),
+        },
+        {
+          path: "orders",
+          name: "dashboard-orders",
+          component: () => import("@/views/OrderView.vue"),
+        },
+        {
+          path: "Coupons",
+          name: "dashboard-Coupons",
+          component: () => import("@/views/CouponsView.vue"),
         },
       ],
     },
