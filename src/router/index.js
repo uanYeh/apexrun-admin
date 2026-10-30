@@ -29,6 +29,11 @@ const router = createRouter({
           name: "dashboard-Coupons",
           component: () => import("@/views/CouponsView.vue"),
         },
+        {
+          path: "Article",
+          name: "dashboard-Article",
+          component: () => import("@/views/ArticleView.vue"),
+        },
       ],
     },
   ],

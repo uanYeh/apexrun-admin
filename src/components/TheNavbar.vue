@@ -25,6 +25,9 @@
             <RouterLink class="nav-link" to="/dashboard/Coupons">優惠頁</RouterLink>
           </li>
           <li class="nav-item">
+            <RouterLink class="nav-link" to="/dashboard/Article">文章頁</RouterLink>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>
           </li>
         </ul>

@@ -20,7 +20,12 @@
       <tr>
         <td>{{ item.category }}</td>
         <td>{{ item.title }}</td>
-        <td class="text-right">{{ $filters.currency(item.origin_price) }}</td>
+        <td
+          class="text-right"
+          style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+        >
+          >{{ $filters.currency(item.origin_price) }}
+        </td>
         <td class="text-right">{{ $filters.currency(item.price) }}</td>
         <td>
           <span class="text-success" v-if="item.is_enabled">啟用</span>
@@ -109,7 +114,7 @@ export default {
         .catch((err) => {
           this.isLoading = false;
           productComponent.hideModal();
-          this.$httppageMessageState("push-message", {
+          this.emitter.emit("push-message", {
             style: "danger",
             title: "API 錯誤",
             content: err.response?.data?.message?.join("、") || "請確認欄位填寫完整",
