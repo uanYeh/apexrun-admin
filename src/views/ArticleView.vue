@@ -1,14 +1,13 @@
 <template>
   <Loading :active="isLoading"></Loading>
-  <div class="d-flex justify-content-between mb-3">
-    <h4>文章管理</h4>
-    <button class="btn btn-primary" @click="openArticleModal(true)">新增文章</button>
+  <div class="text-end">
+    <button class="btn btn-primary" @click.prevent="openArticleModal(true)">新增文章</button>
   </div>
   <table class="table mt-4">
     <thead>
       <tr>
-        <th>標題</th>
         <th>作者</th>
+        <th>標題</th>
         <th>描述</th>
         <th>建立時間</th>
         <th>是否公開</th>
@@ -17,8 +16,8 @@
     </thead>
     <tbody>
       <tr v-for="(item, key) in articles" :key="key">
-        <td>{{ item.title }}</td>
         <td>{{ item.author }}</td>
+        <td>{{ item.title }}</td>
         <td
           style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
         >
@@ -27,7 +26,7 @@
         <td>{{ $filters.date(item.create_at) }}</td>
         <td>
           <span v-if="item.isPublic" class="text-success">公開</span>
-          <span v-else class="text-danger">不公開</span>
+          <span v-else class="text-muted">不公開</span>
         </td>
         <td>
           <div class="btn-group">
@@ -88,6 +87,7 @@ export default {
           create_at: Math.floor(Date.now() / 1000),
           isPublic: false,
           tag: [],
+          num: 0,
         };
         this.isNew = isNew;
         const articleComponent = this.$refs.articleModal;
@@ -119,6 +119,7 @@ export default {
       console.log("送出資料：", this.tempArticle);
       this.$http[httpMethod](api, { data: this.tempArticle })
         .then((res) => {
+          console.log("PUT 回傳：", res.data);
           this.isLoading = false;
           articleComponent.hideModal();
           this.$httppageMessageState(res, this.isNew ? "新增" : "更新");

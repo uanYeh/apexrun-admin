@@ -165,6 +165,7 @@ export default {
         .map((t) => t.trim())
         .filter((t) => t !== "");
       console.log("submitArticle 送出：", this.tempArticle);
+      console.log("num：", this.tempArticle.num);
       this.$emit("update-article", this.tempArticle);
     },
     addTag() {
