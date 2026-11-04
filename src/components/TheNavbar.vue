@@ -19,6 +19,9 @@
             <RouterLink class="nav-link" to="/dashboard/products">產品頁</RouterLink>
           </li>
           <li class="nav-item">
+            <RouterLink class="nav-link" to="/dashboard/categories">分類頁</RouterLink>
+          </li>
+          <li class="nav-item">
             <RouterLink class="nav-link" to="/dashboard/orders">訂單頁</RouterLink>
           </li>
           <li class="nav-item">
