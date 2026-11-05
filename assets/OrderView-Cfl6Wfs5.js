@@ -1,4 +1,4 @@
-import{B as e,D as t,E as n,O as r,_ as i,a,f as o,g as s,h as c,j as l,l as u,m as d,o as f,v as p,y as m,z as h}from"./index-_3Hw9-v2.js";import{n as ee,t as g}from"./DelModal-C6fgt-Hn.js";import{t as _}from"./Pagination-B-eB9-Us.js";function v(e){let t=Object.values(e.products||{}),n=t.map(e=>{let t=e.size||`—`,n=e.color?e.color.name||e.color:`—`;return`
+import{B as e,D as t,E as n,O as r,_ as i,a,f as o,g as s,h as c,j as l,l as u,m as d,o as f,v as p,y as m,z as h}from"./index-CGCiu-5B.js";import{n as ee,t as g}from"./DelModal-BMdclD5q.js";import{t as _}from"./Pagination-BKSHBESU.js";function v(e){let t=Object.values(e.products||{}),n=t.map(e=>{let t=e.size||`—`,n=e.color?e.color.name||e.color:`—`;return`
       <tr>
         <td>☐</td>
         <td>${e.product.title}</td>
