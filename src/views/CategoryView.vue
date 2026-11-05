@@ -54,7 +54,7 @@
       <tr>
         <th width="160">分類</th>
         <th>分類說明</th>
-        <th>Size & Fit</th>
+        <th>尺寸版型 Size & Fit</th>
         <th width="100">操作</th>
       </tr>
     </thead>
