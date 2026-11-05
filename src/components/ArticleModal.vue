@@ -95,25 +95,14 @@
                   placeholder="請輸入標題"
                 />
               </div>
-              <div class="row gx-2">
-                <div class="mb-3 col-md-6">
-                  <label class="form-label">作者</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="tempArticle.author"
-                    placeholder="請輸入作者"
-                  />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label class="form-label">排序</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    v-model.number="tempArticle.num"
-                    placeholder="請輸入排序數字"
-                  />
-                </div>
+              <div class="mb-3">
+                <label class="form-label">作者</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="tempArticle.author"
+                  placeholder="請輸入作者"
+                />
               </div>
               <hr />
               <div class="mb-3">
