@@ -27,29 +27,53 @@
           />
         </div>
 
-        <div class="text-end mt-4">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <!-- 測試帳號一鍵登入（給面試官用） -->
+          <button
+            v-if="hasDemo"
+            class="btn btn-lg btn-outline-secondary"
+            type="button"
+            :disabled="isLoading"
+            @click="demoSignIn"
+          >
+            使用測試帳號登入
+          </button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" :disabled="isLoading">
+            登入
+          </button>
         </div>
+        <p v-if="errorMsg" class="text-danger text-end mt-2 mb-0">{{ errorMsg }}</p>
       </div>
     </form>
   </div>
 </template>
 <script>
-// import bannerImg from "@/assets/images/banner.jpg";
+const DEMO_USER = {
+  username: import.meta.env.VITE_DEMO_EMAIL || "",
+  password: import.meta.env.VITE_DEMO_PASSWORD || "",
+};
 
 export default {
   data() {
     return {
-      //   bannerImg,
       user: {
         username: "",
         password: "",
       },
+      isLoading: false,
+      errorMsg: "",
     };
+  },
+  computed: {
+    hasDemo() {
+      return Boolean(DEMO_USER.username && DEMO_USER.password);
+    },
   },
   methods: {
     signIn() {
       const api = `${import.meta.env.VITE_APP_API}admin/signin`;
+      this.isLoading = true;
+      this.errorMsg = "";
 
       this.$http
         .post(api, this.user)
@@ -58,12 +82,26 @@ export default {
             const { token, expired } = res.data;
             document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
             this.$router.push("/dashboard/products");
+          } else {
+            this.errorMsg = "帳號或密碼錯誤";
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.errorMsg = "帳號或密碼錯誤";
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
+    demoSignIn() {
+      this.user = { ...DEMO_USER };
+      this.signIn();
+    },
+  },
+  mounted() {
+    if (this.$route.query.demo === "1" && this.hasDemo) {
+      this.demoSignIn();
+    }
   },
 };
 </script>

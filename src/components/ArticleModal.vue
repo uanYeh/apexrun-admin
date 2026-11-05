@@ -13,7 +13,12 @@
           <h5 class="modal-title" id="articleModalLabel">
             <span>{{ isNew ? "新增文章" : "編輯文章" }}</span>
           </h5>
-          <button type="button" class="btn-close" @click="hideModal"></button>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           <div class="row">

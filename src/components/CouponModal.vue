@@ -9,12 +9,12 @@
     ref="modal"
   >
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <div class="modal-content border-0">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="exampleModalLabel">優惠券設定</h5>
           <button
             type="button"
-            class="btn-close"
+            class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
@@ -69,7 +69,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-secondary" @click="hideModal">取消</button>
           <button type="button" class="btn btn-primary" @click="$emit('update-coupon', tempCoupon)">
             更新優惠券
           </button>
@@ -97,8 +97,6 @@ export default {
   watch: {
     coupon() {
       this.tempCoupon = this.coupon;
-      // 將時間格式改為 YYYY-MM-DD
-      console.log(this.tempCoupon.due_date);
       const dateAndTime = new Date(this.tempCoupon.due_date * 1000).toISOString().split("T");
       [this.due_date] = dateAndTime;
     },

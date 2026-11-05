@@ -5,6 +5,10 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/",
+      redirect: { path: "/login", query: { demo: "1" } },
+    },
+    {
       path: "/login",
       name: "login",
       component: LoginView,

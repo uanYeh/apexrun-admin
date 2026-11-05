@@ -115,6 +115,24 @@
             <button class="btn btn-outline-danger btn-sm" @click="openDelProductModal(item)">
               刪除
             </button>
+            <!-- 前台查看：啟用的商品才看得到 -->
+            <a
+              v-if="item.is_enabled"
+              :href="frontLink(item)"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-outline-secondary btn-sm"
+              title="在前台查看"
+            >
+              <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+            <span
+              v-else
+              class="btn btn-outline-secondary btn-sm disabled"
+              title="未啟用的商品不會出現在前台"
+            >
+              <i class="bi bi-box-arrow-up-right"></i>
+            </span>
           </div>
         </td>
       </tr>
@@ -151,6 +169,7 @@ import {
 
 // 每頁幾筆
 const PER_PAGE = 10;
+const FRONT_URL = "https://uanyeh.github.io/wavo/";
 
 export default {
   components: { ProductModal, DelModal, Pagination },
@@ -326,6 +345,10 @@ export default {
         if (res.data.success) this.getAllProducts();
         this.$httppageMessageState(res, "刪除");
       });
+    },
+    // 這個商品在前台的網址
+    frontLink(item) {
+      return `${FRONT_URL}#/products/${item.id}`;
     },
   },
   created() {

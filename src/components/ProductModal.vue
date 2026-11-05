@@ -17,14 +17,14 @@
           </h5>
           <button
             type="button"
-            class="btn-close"
+            class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
         </div>
         <div class="modal-body">
           <div class="row">
-            <!-- 圖片區：上傳全部，再勾選主圖 -->
+            <!-- 圖片區：上傳全部，再勾選主圖，其他用拖的排序 -->
             <div class="col-sm-4">
               <label class="form-label fw-bold d-block">商品圖片</label>
 
@@ -70,12 +70,41 @@
                 上傳失敗：{{ uploadErrors.join("、") }}
               </p>
 
-              <!-- 圖片清單 -->
+              <!-- 圖片清單（可拖曳排序，封面不能拖） -->
               <p v-if="!images.length" class="form-text">還沒有圖片</p>
-              <div v-else class="row g-2">
-                <div v-for="(url, index) in images" :key="url" class="col-6">
-                  <div class="border p-1" :class="{ 'border-primary border-2': mainImage === url }">
-                    <img :src="url" class="img-fluid w-100" :alt="`商品圖片 ${index + 1}`" />
+              <VueDraggable
+                v-else
+                v-model="images"
+                class="row g-2"
+                :animation="150"
+                filter=".is-main"
+                :prevent-on-filter="false"
+                ghost-class="opacity-50"
+                @end="keepMainFirst"
+              >
+                <div
+                  v-for="(url, index) in images"
+                  :key="url"
+                  class="col-6"
+                  :class="{ 'is-main': mainImage === url }"
+                >
+                  <div
+                    class="border p-1 position-relative"
+                    :class="{ 'border-primary border-2': mainImage === url }"
+                  >
+                    <!-- 順序號碼 -->
+                    <span
+                      class="badge position-absolute top-0 start-0 m-2"
+                      :class="mainImage === url ? 'bg-primary' : 'bg-dark'"
+                    >
+                      {{ mainImage === url ? "封面" : index + 1 }}
+                    </span>
+                    <img
+                      :src="url"
+                      class="img-fluid w-100"
+                      :alt="`商品圖片 ${index + 1}`"
+                      draggable="false"
+                    />
                     <div class="d-flex justify-content-between align-items-center mt-1">
                       <div class="form-check mb-0">
                         <input
@@ -98,9 +127,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </VueDraggable>
               <div class="form-text mt-2">
-                勾選「主圖」的那張會當作商品封面，沒勾選時預設第一張，其他依序排在後面
+                勾選「主圖」的那張會當作商品封面，固定在第一張；其他圖片可以拖曳調整順序
               </div>
             </div>
 
@@ -330,12 +359,14 @@
   </div>
 </template>
 <script>
+import { VueDraggable } from "vue-draggable-plus";
 import modalMaixins from "@/mixins/modalMixins";
 
 // 把輸入框的值轉成數字，空的回傳 null
 const toNumber = (val) => (val === "" || val === null || val === undefined ? null : Number(val));
 
 export default {
+  components: { VueDraggable },
   props: {
     product: {
       type: Object,
@@ -385,6 +416,10 @@ export default {
       },
       deep: true,
     },
+    // 換主圖時，把它移到第一張
+    mainImage() {
+      this.keepMainFirst();
+    },
   },
   data() {
     return {
@@ -398,7 +433,7 @@ export default {
       newColorCode: "#000000",
 
       // 圖片相關
-      images: [], // 所有圖片網址（畫面上的清單）
+      images: [], // 所有圖片網址（畫面上的順序就是存檔的順序）
       mainImage: "", // 勾選的主圖網址
       newImageUrl: "", // 正在輸入的圖片網址
       uploadProgress: { done: 0, total: 0 }, // 上傳進度
@@ -415,6 +450,15 @@ export default {
       if (!url || this.images.includes(url)) return;
       this.images.push(url);
       if (!this.mainImage) this.mainImage = url;
+    },
+
+    // 主圖固定在第一張（拖曳完或換主圖時呼叫）
+    keepMainFirst() {
+      const index = this.images.indexOf(this.mainImage);
+      if (index > 0) {
+        this.images.splice(index, 1);
+        this.images.unshift(this.mainImage);
+      }
     },
 
     // 上傳一張圖到六角，回傳網址
@@ -482,7 +526,7 @@ export default {
       });
     },
 
-    // 按確認：先檢查，沒問題再把清單拆回 imageUrl（主圖）和 imagesUrl（其他圖片）
+    // 按確認：先檢查，沒問題再把清單拆回 imageUrl（主圖）和 imagesUrl（其他圖片，照畫面順序）
     submit() {
       this.submitted = true;
       if (Object.keys(this.errors).length) {
