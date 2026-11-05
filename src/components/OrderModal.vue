@@ -16,12 +16,12 @@
           </h5>
           <button
             type="button"
-            class="btn-close"
+            class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="orderPrintArea">
           <div class="row">
             <div class="col-md-4">
               <h3>用戶資料</h3>
@@ -76,26 +76,51 @@
                   </tr>
                   <tr>
                     <th>總金額</th>
-                    <td>
-                      {{ $filters.currency(tempOrder.total) }}
-                    </td>
+                    <td>{{ $filters.currency(tempOrder.total) }}</td>
                   </tr>
                 </tbody>
               </table>
+
               <h3>選購商品</h3>
-              <table class="table">
+              <table class="table align-middle">
                 <thead>
-                  <tr></tr>
+                  <tr>
+                    <th style="width: 56px"></th>
+                    <th>商品</th>
+                    <th>尺寸／顏色</th>
+                    <th>數量</th>
+                    <th class="text-end">小計</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr v-for="item in tempOrder.products" :key="item.id">
-                    <th>
-                      {{ item.product.title }}
-                    </th>
-                    <td>{{ item.qty }} / {{ item.product.unit }}</td>
-                    <td class="text-end">
-                      {{ $filters.currency(item.final_total) }}
+                    <td>
+                      <img
+                        v-if="item.product.imageUrl"
+                        :src="item.product.imageUrl"
+                        :alt="item.product.title"
+                        style="width: 48px; height: 48px; object-fit: cover"
+                        class="rounded border"
+                      />
                     </td>
+                    <td>{{ item.product.title }}</td>
+                    <td>
+                      <span v-if="item.size" class="badge bg-secondary me-1">{{ item.size }}</span>
+                      <span v-if="item.color">
+                        <span
+                          class="d-inline-block rounded-circle border me-1"
+                          :style="{
+                            width: '0.9rem',
+                            height: '0.9rem',
+                            backgroundColor: item.color.code || item.color,
+                          }"
+                        ></span>
+                        <small class="text-muted">{{ item.color.name || item.color }}</small>
+                      </span>
+                      <span v-if="!item.size && !item.color" class="text-muted">—</span>
+                    </td>
+                    <td>{{ item.qty }} / {{ item.product.unit }}</td>
+                    <td class="text-end">{{ $filters.currency(item.final_total) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -105,6 +130,9 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
+          </button>
+          <button type="button" class="btn btn-outline-dark" @click="print">
+            <i class="fas fa-print me-1"></i>列印
           </button>
           <button type="button" class="btn btn-primary" @click="$emit('update-order', tempOrder)">
             確認
@@ -116,6 +144,7 @@
 </template>
 <script>
 import modalMixin from "@/mixins/modalMixins";
+import { printOrder } from "@/utils/printOrder";
 
 export default {
   name: "orderModal",
@@ -135,13 +164,18 @@ export default {
       isPaid: false,
     };
   },
-  emits: ["update-product"],
+  emits: ["update-order"],
   mixins: [modalMixin],
   inject: ["emitter"],
   watch: {
     order() {
       this.tempOrder = this.order;
       this.isPaid = this.tempOrder.is_paid;
+    },
+  },
+  methods: {
+    print() {
+      printOrder(this.tempOrder);
     },
   },
 };
