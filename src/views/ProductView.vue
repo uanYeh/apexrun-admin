@@ -169,7 +169,7 @@ import {
 
 // 每頁幾筆
 const PER_PAGE = 10;
-const FRONT_URL = "https://uanyeh.github.io/wavo/";
+const FRONT_URL = "https://uanyeh.github.io/Apexrun/";
 
 export default {
   components: { ProductModal, DelModal, Pagination },

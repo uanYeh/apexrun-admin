@@ -59,8 +59,11 @@
             <a class="nav-link" href="#" @click.prevent="logout">登出</a>
           </li>
         </ul>
+        <!-- <a class="navbar-text link-dark text-decoration-none me-3">
+          <i class="bi bi-journal-text me-1"></i>操作手冊
+        </a> -->
         <a
-          href="https://uanyeh.github.io/wavo/"
+          href="https://uanyeh.github.io/Apexrun/"
           target="_blank"
           rel="noopener"
           class="navbar-text link-dark text-decoration-none"

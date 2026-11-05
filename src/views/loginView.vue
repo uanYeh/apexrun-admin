@@ -36,7 +36,7 @@
             :disabled="isLoading"
             @click="demoSignIn"
           >
-            使用測試帳號登入
+            訪客登入
           </button>
           <button class="btn btn-lg btn-primary btn-block" type="submit" :disabled="isLoading">
             登入
