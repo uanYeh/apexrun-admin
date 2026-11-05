@@ -75,17 +75,7 @@
         </td>
 
         <!-- 購買款項：每個規格一行 -->
-        <td>
-          <ul class="list-unstyled mb-0">
-            <template v-for="(product, i) in item.products" :key="i">
-              <li v-for="(v, vi) in variantsOf(product)" :key="`${i}-${vi}`">
-                {{ product.product.title }}
-                <span v-if="variantLabel(v)" class="text-muted">（{{ variantLabel(v) }}）</span>
-                數量：{{ v.qty }} {{ product.product.unit }}
-              </li>
-            </template>
-          </ul>
-        </td>
+        <td>{{ Object.values(item.products || {}).length }} 項商品</td>
 
         <!-- 金額 + 折扣碼 -->
         <td class="text-right">
